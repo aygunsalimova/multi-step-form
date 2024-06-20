@@ -2,44 +2,47 @@ import React from "react";
 import Header from "../components/Header";
 import NextButton from "../components/NextButton";
 import BackButton from "../components/BackButton";
-import { useDispatch } from "react-redux";
-import {
-  incrementPageStep,
-  decrementPageStep,
-} from "../store/slices/pageStepSlice";
+import { useDispatch, useSelector } from "react-redux";
+import { incrementPageStep, decrementPageStep } from "../store/slices/pageStepSlice";
 import PickAddCard from "../components/PickAddCard";
 import { AddOns } from "../constants/planCardDb";
+import { setAddOns } from "../store/slices/addOnsSlice";
+import { RootState } from "../store/store";
 
 const Add: React.FC = () => {
   const dispatch = useDispatch();
   const [activeCards, setActiveCards] = React.useState<string[]>([]); // Array to handle multiple active cards
-  const [errorMessage, setErrorMessage] = React.useState<string | null>(null); // Error message state
+  const selectedAddOns = useSelector((state: RootState) => state.addOns.selectedAddOns);
 
   const handleCardClick = (id: string) => {
-    setActiveCards(
-      (prevActiveCards) =>
-        prevActiveCards.includes(id)
-          ? prevActiveCards.filter((cardId) => cardId !== id) // Remove the card if it's already active
-          : [...prevActiveCards, id] // Add the card if it's not active
+    setActiveCards((prevActiveCards) =>
+      prevActiveCards.includes(id)
+        ? prevActiveCards.filter((cardId) => cardId !== id) // Remove the card if it's already active
+        : [...prevActiveCards, id] // Add the card if it's not active
     );
   };
 
   const handleNextStep = () => {
     if (activeCards.length === 0) {
-      setErrorMessage("Please choose at least one add-on.");
+      console.log("Please select at least one add-on");
     } else {
-      setErrorMessage(null);
+      console.log("Selected Add-Ons: ", activeCards);
+      dispatch(setAddOns({ selectedAddOns: activeCards })); // Dispatch selected add-ons to Redux store
       dispatch(incrementPageStep());
     }
   };
-
+  
   const handleBackStep = () => {
     dispatch(decrementPageStep());
   };
 
+  React.useEffect(() => {
+    console.log("Redux Store - Selected Add-Ons: ", selectedAddOns);
+  }, [selectedAddOns]);
+
   return (
     <>
-      <div className="mx-100 my-10">
+      <div className="mx-100 mt-10 flex flex-col">
         <Header
           headerText="Pick add-ons"
           paragraphText="Add-ons help enhance your gaming experience."
@@ -58,11 +61,7 @@ const Add: React.FC = () => {
           ))}
         </div>
 
-        {errorMessage && (
-          <p className="text-red-600 text-sm mt-2">{errorMessage}</p>
-        )}
-
-        <div className="flex justify-between flex-1">
+        <div className="flex justify-between mt-auto">
           <BackButton backBtnOnClick={handleBackStep} />
           <NextButton nextBtnOnClick={handleNextStep} />
         </div>

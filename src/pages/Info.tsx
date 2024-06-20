@@ -5,6 +5,7 @@ import { useDispatch } from "react-redux";
 import { incrementPageStep } from "../store/slices/pageStepSlice";
 import Header from "../components/Header";
 import NextButton from "../components/NextButton";
+import { setFormData } from '../store/slices/formDataSlice';
 
 interface IFormInput {
   name: string;
@@ -43,11 +44,12 @@ export default function Info() {
   const onSubmit: SubmitHandler<IFormInput> = (data) => {
     // onSubmit fn automatically increments page step number when form submitted
     console.log(data);
+    dispatch(setFormData(data));
     dispatch(incrementPageStep());
   };
 
   return (
-    <div className="mx-100">
+    <div className="mx-100 flex flex-col">
       <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col pt-10">
         <Header
           headerText="Personal info"
@@ -115,7 +117,7 @@ export default function Info() {
           type="text"
           {...register("phone")}
         />
-        <div className="self-end">
+        <div className="flex justify-end mt-20">
           <NextButton />
         </div>
       </form>

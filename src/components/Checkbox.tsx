@@ -4,12 +4,14 @@ import { toggleMode } from "../store/slices/cardSlice";
 // import { IRootStore } from "../store";
 
 
+
 const Checkbox: React.FC = () => {
-  const {mode} = useSelector((state: any) => state.formMode)
+  const {mode} = useSelector((state: any) => state.formMode);
   const dispatch = useDispatch();
 
   const handleCheckboxChange = () => {
     dispatch(toggleMode()); 
+
   };
 
   return (
