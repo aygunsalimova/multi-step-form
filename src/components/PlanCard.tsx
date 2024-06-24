@@ -8,7 +8,7 @@ interface PlanCardProps {
 }
 
 const PlanCard: React.FC<
-  PlanCardProps & { isActive: boolean; onClick: (id: string) => void }
+  PlanCardProps & { isActive: boolean; onClick: (id: string) => void } 
 > = ({ id, isActive, onClick, icon, text, price }) => {
   return (
     <>
