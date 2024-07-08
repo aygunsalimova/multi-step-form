@@ -1,17 +1,14 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { toggleMode } from "../store/slices/cardSlice";
-// import { IRootStore } from "../store";
-
-
+import { toggleMode } from "../store/slices/formModeSlice";
+import { RootState } from "../store/store";
 
 const Checkbox: React.FC = () => {
-  const {mode} = useSelector((state: any) => state.formMode);
+  const {mode} = useSelector((state: RootState) => state.formMode);
   const dispatch = useDispatch();
 
   const handleCheckboxChange = () => {
     dispatch(toggleMode()); 
-
   };
 
   return (

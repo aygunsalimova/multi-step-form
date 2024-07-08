@@ -26,7 +26,7 @@ const schema = yup
     phone: yup
       .string()
       .required("Phone number is required")
-      .matches(/^\+?[1-9]\d{1,14}$/, "Phone number is not valid")
+      // .matches(/^\?[1-9]\d{1,14}$/, "Phone number is not valid")
       .min(10, "Phone number must be at least 10 characters long"),
   })
   .required();
